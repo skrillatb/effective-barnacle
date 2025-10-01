@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  APP_DIR: .   
+  APP_DIR: .
 
 jobs:
   build:
@@ -48,7 +48,7 @@ jobs:
         run: flutter pub get
 
       - name: Regenerate platform folders
-        run: flutter create .
+        run: flutter create . --project-name bbb_locations
 
       - name: Build APK
         run: flutter build apk
