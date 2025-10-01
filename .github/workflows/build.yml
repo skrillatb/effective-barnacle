@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  APP_DIR: .   # mets ici le chemin où se trouve TON pubspec.yaml, ex: app/mobile
+  APP_DIR: .   
 
 jobs:
   build:
@@ -22,7 +22,9 @@ jobs:
         run: |
           pwd
           ls -la
-          test -f pubspec.yaml && echo "pubspec.yaml trouvé ✅" || (echo "pubspec.yaml introuvable ❌" && exit 1)
+          test -f pubspec.yaml || (echo "pubspec.yaml introuvable" && exit 1)
+          grep -E '^name:' pubspec.yaml || true
+          grep -E '^environment:' -n -A 2 pubspec.yaml || true
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
@@ -33,10 +35,10 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Setup Flutter 3.7.12 (Dart 2.19)
+      - name: Setup Flutter 3.16.0
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.12"
+          flutter-version: "3.16.0"
           cache: true
 
       - name: Flutter doctor
