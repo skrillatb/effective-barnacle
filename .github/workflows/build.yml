@@ -33,6 +33,17 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
+      - name: Normalize pubspec name (replace - with _)
+        run: |
+          cp pubspec.yaml pubspec.bak
+          awk 'BEGIN{done=0} 
+               /^name:/ && !done { 
+                 gsub("-","_",$2); 
+                 print "name: " $2; 
+                 done=1; next 
+               } 
+               {print}' pubspec.bak > pubspec.yaml
+
       - name: Regenerate platform folders
         run: flutter create .
 
